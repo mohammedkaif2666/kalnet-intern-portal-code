@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KALNET | Recruiter Signup</title>
+  <meta name="description" content="Create recruiter access for the KALNET portal. Recruiters can then add interns, assign groups, schedule meetings, manage tickets, and export student data." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; font-family: "Inter", sans-serif; background: #f8f7f4; color: #111827; display: grid; place-items: center; padding: 28px; }
+    .orb { position: fixed; border-radius: 50%; filter: blur(100px); opacity: .18; pointer-events: none; }
+    .orb.a { width: 460px; height: 460px; background: radial-gradient(circle, #818cf8, transparent); top: -140px; left: -120px; }
+    .orb.b { width: 360px; height: 360px; background: radial-gradient(circle, #6ee7b7, transparent); right: -120px; bottom: -100px; }
+    .shell { width: min(100%, 960px); display: grid; grid-template-columns: 1fr 420px; border-radius: 30px; overflow: hidden; background: rgba(255,255,255,.82); border: 1px solid rgba(0,0,0,.08); box-shadow: 0 32px 80px rgba(0,0,0,.09); backdrop-filter: blur(18px); }
+    .intro { padding: 48px; background: linear-gradient(180deg, rgba(79,70,229,.06), rgba(124,58,237,.02)); }
+    .intro-badge { display: inline-flex; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(79,70,229,.18); background: rgba(79,70,229,.08); color: #4f46e5; font-size: 12px; font-weight: 800; letter-spacing: .9px; text-transform: uppercase; }
+    .intro h1 { margin-top: 18px; font-size: clamp(34px, 4vw, 54px); line-height: 1.05; letter-spacing: -1.8px; }
+    .intro h1 span { background: linear-gradient(135deg, #4f46e5, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .intro p { margin-top: 18px; color: #6b7280; line-height: 1.8; font-size: 15px; }
+    .steps { margin-top: 26px; display: grid; gap: 14px; }
+    .step { padding: 18px 18px 18px 54px; border-radius: 18px; background: rgba(255,255,255,.7); border: 1px solid rgba(0,0,0,.06); position: relative; }
+    .step::before { content: attr(data-step); position: absolute; left: 18px; top: 18px; width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; background: rgba(79,70,229,.1); color: #4f46e5; font-size: 12px; font-weight: 900; }
+    .step strong { display: block; font-size: 14px; }
+    .step span { display: block; margin-top: 4px; color: #6b7280; font-size: 13px; line-height: 1.6; }
+    .panel { padding: 36px; background: #fff; }
+    .panel h2 { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+    .panel-copy { margin-top: 10px; color: #6b7280; font-size: 14px; line-height: 1.7; }
+    .callout { margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: rgba(217,119,6,.08); color: #6b7280; font-size: 13px; line-height: 1.6; }
+    .form { margin-top: 22px; display: grid; gap: 14px; }
+    .field label { display: block; margin-bottom: 8px; color: #6b7280; font-size: 12px; font-weight: 800; letter-spacing: .9px; text-transform: uppercase; }
+    .field input { width: 100%; padding: 14px 15px; border-radius: 14px; border: 1.5px solid rgba(0,0,0,.08); background: #fafafa; font-size: 15px; outline: none; transition: .2s ease; }
+    .field input:focus { background: #fff; border-color: rgba(79,70,229,.55); box-shadow: 0 0 0 4px rgba(79,70,229,.08); }
+    .btn { width: 100%; padding: 15px 18px; border: none; border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 800; transition: .2s ease; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; box-shadow: 0 16px 36px rgba(79,70,229,.22); }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-secondary { margin-top: 10px; background: #fff; color: #111827; border: 1.5px solid rgba(0,0,0,.08); box-shadow: none; }
+    .btn-secondary:hover { background: #f8fafc; }
+    .links { margin-top: 18px; display: grid; gap: 10px; text-align: center; color: #6b7280; font-size: 14px; line-height: 1.6; }
+    .links a { color: #4f46e5; font-weight: 800; text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 100px); opacity: 0; padding: 12px 18px; border-radius: 12px; background: #111827; color: #fff; font-size: 13px; font-weight: 700; transition: .3s ease; box-shadow: 0 14px 30px rgba(0,0,0,.18); }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .toast.error { background: #dc2626; }
+    .toast.success { background: #059669; }
+    @media (max-width: 920px) {
+      .shell { grid-template-columns: 1fr; }
+      .intro { padding: 34px 28px; }
+      .panel { padding: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+
+  <div class="shell">
+    <section class="intro">
+      <div class="intro-badge">Recruiter Access Only</div>
+      <h1>Create the <span>recruiter workspace</span>.</h1>
+      <p>This page creates recruiter access only. Once the recruiter account exists, interns are added from the recruiter dashboard and automatically receive their email-based login plus phone-password credentials.</p>
+
+      <div class="steps">
+        <div class="step" data-step="1">
+          <strong>Create recruiter access</strong>
+          <span>Register with your name, email address, and phone number. Your phone number becomes the initial password.</span>
+        </div>
+        <div class="step" data-step="2">
+          <strong>Open recruiter dashboard</strong>
+          <span>After signup you land directly in the recruiter dashboard with student management, meetings, tickets, and exports enabled.</span>
+        </div>
+        <div class="step" data-step="3">
+          <strong>Add interns from one place</strong>
+          <span>Recruiters assign Group A, Group B, or Group C and create each intern account without allowing public intern signup.</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <h2>Recruiter Sign Up</h2>
+      <p class="panel-copy">This creates a recruiter role directly in Firebase Auth and the portal profile collection. You can register with email/password or link Google plus email/password on the same recruiter account.</p>
+      <div class="callout">Important: interns should not use this page. They must sign in from the main page after the recruiter creates their account.</div>
+
+      <form class="form" id="signup-form">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input id="name" type="text" placeholder="Recruiter full name" required />
+        </div>
+        <div class="field">
+          <label for="email">Work Email</label>
+          <input id="email" type="email" placeholder="recruiter@company.com" required />
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input id="phone" type="tel" placeholder="91XXXXXXXXXX" required />
+        </div>
+        <button class="btn" id="signup-btn" type="submit">Create Recruiter Account</button>
+        <button class="btn btn-secondary" id="google-signup-btn" type="button">Continue with Google and Link Phone Login</button>
+      </form>
+
+      <div class="links">
+        <div>Already created the recruiter account? <a href="index.html">Go back to sign in</a></div>
+        <div>Need the curriculum first? <a href="work.html">Open the programme page</a></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import {
+      auth,
+      completeRecruiterGoogleSignup,
+      createRecruiterAccount,
+      getDashboardPath,
+      loadUserProfile,
+      signInRecruiterWithGoogle,
+      waitForAuthState,
+    } from "./portal-core.js";
+
+    const toastElement = document.getElementById("toast");
+    const showToast = (message, type = "") => {
+      toastElement.textContent = message;
+      toastElement.className = `toast ${type}`.trim();
+      toastElement.classList.add("show");
+      clearTimeout(toastElement._timer);
+      toastElement._timer = setTimeout(() => toastElement.classList.remove("show"), 3200);
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const wantsGoogle = params.get("google") === "1";
+
+    const applyGoogleUserDetails = () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      if (user.displayName) {
+        document.getElementById("name").value = user.displayName;
+      }
+      if (user.email) {
+        document.getElementById("email").value = user.email;
+      }
+    };
+
+    const currentUser = await waitForAuthState();
+    if (currentUser) {
+      const profile = await loadUserProfile(currentUser.uid, currentUser);
+      if (profile) {
+        window.location.replace(getDashboardPath(profile.role));
+      } else {
+        applyGoogleUserDetails();
+        if (wantsGoogle) {
+          showToast("Finish the phone field to link email/password with Google recruiter access.", "success");
+        }
+      }
+    }
+
+    if (!currentUser || !(await loadUserProfile(currentUser.uid, currentUser))) {
+      document.getElementById("signup-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+
+        if (!name || !email || !phone) {
+          showToast("Fill every recruiter field before continuing.", "error");
+          return;
+        }
+
+        const normalizedPhone = phone.replace(/[^\d+]/g, "");
+        if (normalizedPhone.length < 6) {
+          showToast("Phone number must be at least 6 characters because it becomes the password.", "error");
+          return;
+        }
+
+        const button = document.getElementById("signup-btn");
+        button.disabled = true;
+        button.textContent = "Creating Recruiter Access...";
+
+        try {
+          await createRecruiterAccount({ name, email, phone: normalizedPhone, password: normalizedPhone });
+          showToast("Recruiter account created successfully.", "success");
+          window.location.replace(getDashboardPath("recruiter"));
+        } catch (error) {
+          showToast(`Recruiter signup failed: ${error.message}`, "error");
+          button.disabled = false;
+          button.textContent = "Create Recruiter Account";
+        }
+      });
+
+      document.getElementById("google-signup-btn").addEventListener("click", async () => {
+        const phone = document.getElementById("phone").value.trim();
+        const name = document.getElementById("name").value.trim();
+
+        if (!phone) {
+          showToast("Enter the recruiter phone number first so it can also become the password.", "error");
+          return;
+        }
+
+        try {
+          if (!auth.currentUser) {
+            const googleResult = await signInRecruiterWithGoogle();
+            if (googleResult.status === "signed_in" && googleResult.profile?.role === "recruiter") {
+              window.location.replace(getDashboardPath("recruiter"));
+              return;
+            }
+            if (googleResult.status === "signed_in" && googleResult.profile?.role && googleResult.profile.role !== "recruiter") {
+              showToast("This Google account is already linked to a non-recruiter portal account.", "error");
+              return;
+            }
+            if (googleResult.status === "needs_link") {
+              showToast("This email already exists with phone-password sign-in. Use the main sign-in page once and link Google from there.", "error");
+              return;
+            }
+            applyGoogleUserDetails();
+          }
+
+          await completeRecruiterGoogleSignup({ phone, name });
+          showToast("Recruiter Google access is ready and linked with phone-password sign-in.", "success");
+          window.location.replace(getDashboardPath("recruiter"));
+        } catch (error) {
+          showToast(`Google recruiter setup failed: ${error.message}`, "error");
+        }
+      });
+    }
+  </script>
+  <script type="module" src="./pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>KALNET | AI/ML Training Programme</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#F8F7F4;--bg2:#fff;--primary:#4F46E5;--violet:#7C3AED;--emerald:#059669;--amber:#D97706;--red:#DC2626;--sky:#0EA5E9;--text:#111827;--text-muted:#6B7280;--border:rgba(0,0,0,.08);--r:16px}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+    .bg-orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:.12;pointer-events:none;z-index:0}
+    .orb1{width:600px;height:600px;background:radial-gradient(circle,#818CF8,transparent);top:-200px;right:-200px}
+    .orb2{width:400px;height:400px;background:radial-gradient(circle,#6EE7B7,transparent);bottom:10%;left:-150px}
+    .orb3{width:350px;height:350px;background:radial-gradient(circle,#F9A8D4,transparent);top:50%;right:-100px}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:200;background:rgba(248,247,244,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 5%;height:60px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo .ico{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4F46E5,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:16px}
+    .nav-logo span{font-size:20px;font-weight:800;color:var(--text)}.nav-logo em{font-style:normal;color:var(--primary)}
+    .nav-links{display:flex;gap:8px;align-items:center}
+    .nav-link{color:var(--text-muted);text-decoration:none;font-size:15px;font-weight:500;padding:8px 16px;border-radius:8px;transition:.2s}
+    .nav-link:hover{color:var(--text);background:rgba(0,0,0,.04)}
+    .hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);margin:4px 0;border-radius:2px;transition:.3s}
+    .mobile-menu{display:none;position:fixed;inset:0;top:60px;background:rgba(248,247,244,.98);backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:20px 5%;gap:6px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{color:var(--text);text-decoration:none;font-size:16px;font-weight:600;padding:14px 16px;border-radius:12px;transition:.2s}
+    .mobile-menu a:hover{background:rgba(79,70,229,.06);color:var(--primary)}
+    @media(max-width:768px){.nav-links{display:none}.hamburger{display:block}}
+
+    /* HERO */
+    .hero{text-align:center;padding:100px 5% 80px;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+    .hero-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.2);color:var(--primary);font-size:13px;font-weight:700;padding:8px 24px;border-radius:100px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:24px}
+    .hero h1{font-size:clamp(42px,6vw,68px);font-weight:900;letter-spacing:-2.5px;line-height:1.05}
+    .hero h1 .gr{background:linear-gradient(135deg,var(--primary),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:20px;color:var(--text-muted);margin-top:20px;line-height:1.7;max-width:720px;margin-left:auto;margin-right:auto}
+    .hero-stats{display:flex;gap:20px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+    .hero-stat{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:24px 36px;min-width:140px;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+    .hero-stat .num{font-size:36px;font-weight:800;color:var(--primary)}.hero-stat .txt{font-size:13px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+
+    /* OVERVIEW TABLE */
+    .section{max-width:1400px;margin:0 auto;padding:0 5% 80px;position:relative;z-index:1}
+    .section-title{font-size:clamp(28px,4.5vw,44px);font-weight:800;letter-spacing:-1.2px;margin-bottom:12px}
+    .section-sub{font-size:18px;color:var(--text-muted);line-height:1.65;margin-bottom:48px;max-width:800px}
+    .overview-table{background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+    .overview-table table{width:100%;border-collapse:collapse}
+    .overview-table th,.overview-table td{padding:20px 28px;font-size:16px;text-align:left;border-bottom:1px solid var(--border)}
+    .overview-table th{background:#FAFAFA;font-weight:800;font-size:14px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+    .overview-table td:first-child{font-weight:700;color:var(--text)}
+    .overview-table tr:last-child td{border-bottom:none}
+    .chip{font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px;display:inline-block}
+    .chip-theory{background:rgba(79,70,229,.08);color:var(--primary)}
+    .chip-assign{background:rgba(217,119,6,.08);color:var(--amber)}
+    .chip-project{background:rgba(5,150,105,.08);color:var(--emerald)}
+
+    /* PHASE CARDS */
+    .phases-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:24px}
+    .phase-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:28px;cursor:pointer;transition:all .3s ease;box-shadow:0 2px 8px rgba(0,0,0,.04);position:relative;overflow:hidden}
+    .phase-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1);border-color:rgba(79,70,229,.2)}
+    .phase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+    .phase-card[data-color="indigo"]::before{background:linear-gradient(90deg,#4F46E5,#818CF8)}
+    .phase-card[data-color="violet"]::before{background:linear-gradient(90deg,#7C3AED,#A78BFA)}
+    .phase-card[data-color="emerald"]::before{background:linear-gradient(90deg,#059669,#6EE7B7)}
+    .phase-card[data-color="amber"]::before{background:linear-gradient(90deg,#D97706,#FCD34D)}
+    .phase-card[data-color="sky"]::before{background:linear-gradient(90deg,#0EA5E9,#7DD3FC)}
+    .phase-card[data-color="red"]::before{background:linear-gradient(90deg,#DC2626,#FCA5A5)}
+    .pc-label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px}
+    .pc-title{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:10px}
+    .pc-desc{font-size:16px;color:var(--text-muted);line-height:1.65;margin-bottom:24px}
+    .pc-meta{display:flex;gap:14px;flex-wrap:wrap}
+    .pc-tag{font-size:13px;font-weight:700;padding:6px 12px;border-radius:8px;background:#FAFAFA;border:1px solid var(--border);color:var(--text-muted)}
+    .pc-arrow{position:absolute;bottom:24px;right:24px;font-size:22px;color:var(--text-muted);transition:.2s}
+    .phase-card:hover .pc-arrow{color:var(--primary);transform:translateX(4px)}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;backdrop-filter:blur(4px)}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--bg);border-radius:24px;max-width:1000px;width:100%;max-height:none;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.2);margin-bottom:40px}
+    .modal-header{position:sticky;top:0;background:var(--bg2);z-index:2;padding:32px 36px 24px;border-bottom:1px solid var(--border);border-radius:24px 24px 0 0;display:flex;justify-content:space-between;align-items:flex-start}
+    .modal-header h2{font-size:28px;font-weight:900;letter-spacing:-.8px}.modal-header p{font-size:15px;color:var(--text-muted);margin-top:6px}
+    .modal-close{background:none;border:none;font-size:28px;cursor:pointer;color:var(--text-muted);padding:4px 12px;border-radius:10px;transition:.2s}
+    .modal-close:hover{background:rgba(0,0,0,.06);color:var(--text)}
+    .modal-body{padding:32px 36px 48px}
+
+    /* Day table in modal */
+    .day-table{width:100%;border-collapse:collapse;margin-bottom:24px}
+    .day-table th,.day-table td{padding:16px 20px;font-size:15px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+    .day-table th{background:#FAFAFA;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-muted);position:sticky;top:0}
+    .day-table td:first-child{font-weight:800;white-space:nowrap;color:var(--primary);width:80px}
+    .day-table .topic{font-weight:700;color:var(--text)}
+    .day-table .deliverable{font-size:14px;color:var(--text-muted);margin-top:4px}
+    .day-table tr:hover{background:rgba(79,70,229,.02)}
+
+    .resources-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px}
+    .resources-card h4{font-size:17px;font-weight:800;margin-bottom:16px}
+    .res-link{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;text-decoration:none;color:var(--text);font-size:15px;font-weight:600;transition:.2s;margin-bottom:6px}
+    .res-link:hover{background:rgba(79,70,229,.06);color:var(--primary)}
+    .res-link .ri{font-size:18px}
+
+    .checklist{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px}
+    .checklist h4{font-size:17px;font-weight:800;margin-bottom:14px}
+    .check-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:15px;color:var(--text-muted);line-height:1.6}
+    .check-item::before{content:'☐';flex-shrink:0;font-size:16px}
+
+    .assignment-steps{list-style:none;counter-reset:step}
+    .assignment-steps li{counter-increment:step;padding:20px;border-radius:14px;background:var(--bg2);border:1px solid var(--border);margin-bottom:12px;font-size:15px;line-height:1.7;color:var(--text-muted);position:relative;padding-left:52px}
+    .assignment-steps li::before{content:counter(step);position:absolute;left:18px;top:18px;width:26px;height:26px;border-radius:8px;background:rgba(79,70,229,.08);color:var(--primary);font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+    .pass-criteria{background:rgba(5,150,105,.04);border:1px solid rgba(5,150,105,.15);border-radius:14px;padding:24px;margin-top:20px}
+    .pass-criteria h4{font-size:17px;font-weight:800;color:var(--emerald);margin-bottom:10px}
+    .pass-criteria p{font-size:15px;line-height:1.7;color:var(--text-muted)}
+
+    /* SPRINT TABLE */
+    .sprint-cards{display:grid;gap:12px}
+    .sprint-card{display:flex;gap:14px;align-items:flex-start;padding:16px;border-radius:12px;background:var(--bg2);border:1px solid var(--border)}
+    .sprint-num{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0}
+    .sprint-body h4{font-size:14px;font-weight:700;margin-bottom:3px}
+    .sprint-body p{font-size:12px;color:var(--text-muted);line-height:1.5}
+    .sprint-gate{font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;margin-top:6px;display:inline-block}
+
+    /* EVALUATION */
+    .eval-section{margin-top:80px}
+    .eval-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+    .eval-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:32px;text-align:center}
+    .eval-pct{font-size:42px;font-weight:900;color:var(--primary)}
+    .eval-label{font-size:16px;font-weight:700;margin-top:8px}
+    .eval-by{font-size:13px;color:var(--text-muted);margin-top:6px}
+
+    /* RESOURCES SECTION */
+    .yt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+    .yt-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:24px;display:flex;gap:18px;align-items:center;transition:.2s}
+    .yt-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .yt-icon{width:52px;height:52px;border-radius:14px;background:rgba(220,38,38,.08);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+    .yt-info{flex:1;min-width:0}
+    .yt-info h4{font-size:15px;font-weight:700;line-height:1.4}
+    .yt-info p{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .yt-phase{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(79,70,229,.08);color:var(--primary)}
+
+    /* SCROLL REVEAL */
+    .reveal{opacity:0;transform:translateY(30px);transition:all .6s cubic-bezier(.16,1,.3,1)}.reveal.visible{opacity:1;transform:none}
+
+    footer p{font-size:13px;color:var(--text-muted)}
+
+    @media(max-width:600px){.hero{padding:50px 5% 40px}.phases-grid{grid-template-columns:1fr}.hero-stats{gap:10px}.hero-stat{min-width:0;flex:1;padding:14px 10px}.overview-table{overflow-x:auto}.modal{margin:0 10px;border-radius:16px}.modal-body{padding:18px}.day-table td,.day-table th{padding:8px 10px;font-size:12px}.eval-grid{grid-template-columns:1fr 1fr}.yt-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb1"></div><div class="bg-orb orb2"></div><div class="bg-orb orb3"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><div class="ico">⚡</div><span>KALNET<em>.AI</em></span></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="profile.html" class="nav-link">Profile</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html">🏠 Home</a>
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="profile.html">👤 My Profile</a>
+    <a href="work.html">📋 Programme</a>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div><h2 id="modal-title"></h2><p id="modal-subtitle"></p></div>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero reveal">
+    <div class="hero-badge">📋 Official Programme Track · v1.0 2026</div>
+    <h1>AI/ML Intern Engineering <span class="gr">Training Programme</span></h1>
+    <p>Machine Learning, Deep Learning, LLMs & MLOps Track — a structured 4-month journey from foundations to production-grade engineering.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">120</div><div class="txt">Days</div></div>
+      <div class="hero-stat"><div class="num">4</div><div class="txt">Domains</div></div>
+      <div class="hero-stat"><div class="num">8</div><div class="txt">Modules</div></div>
+      <div class="hero-stat"><div class="num">6</div><div class="txt">Sprints</div></div>
+    </div>
+  </section>
+
+  <!-- PROGRAMME OVERVIEW -->
+  <section class="section reveal">
+    <h2 class="section-title">Programme Overview</h2>
+    <p class="section-sub">Phase 1-2 delivers intensive theory + assignments across 60 days. Phase 3 embeds you in real KALNET product teams for 60 days of sprint-based engineering.</p>
+    <div class="overview-table">
+      <table>
+        <thead><tr><th>Month</th><th>Phase</th><th>Content</th><th>Duration</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td>Month 1</td><td>Phase 1A</td><td>ML Foundations Theory</td><td>14 days</td><td><span class="chip chip-theory">Theory</span></td></tr>
+          <tr><td>Month 1</td><td>Phase 1B</td><td>ML Foundations Assignment</td><td>3 days</td><td><span class="chip chip-assign">Assignment</span></td></tr>
+          <tr><td>Month 1</td><td>Phase 1C</td><td>Deep Learning Theory</td><td>10 days</td><td><span class="chip chip-theory">Theory</span></td></tr>
+          <tr><td>Month 1</td><td>Phase 1D</td><td>Deep Learning Assignment</td><td>3 days</td><td><span class="chip chip-assign">Assignment</span></td></tr>
+          <tr><td>Month 2</td><td>Phase 2A</td><td>LLMs, LangChain & AI Agents Theory</td><td>15 days</td><td><span class="chip chip-theory">Theory</span></td></tr>
+          <tr><td>Month 2</td><td>Phase 2B</td><td>LLM & Agent Assignment</td><td>4 days</td><td><span class="chip chip-assign">Assignment</span></td></tr>
+          <tr><td>Month 2</td><td>Phase 2C</td><td>MLOps & Production Theory</td><td>9 days</td><td><span class="chip chip-theory">Theory</span></td></tr>
+          <tr><td>Month 2</td><td>Phase 2D</td><td>MLOps Assignment</td><td>2 days</td><td><span class="chip chip-assign">Assignment</span></td></tr>
+          <tr><td>Month 3-4</td><td>Phase 3</td><td>Industry-Level Live AI/ML Project</td><td>60 days</td><td><span class="chip chip-project">Project</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PHASE CARDS -->
+  <section class="section reveal">
+    <h2 class="section-title">Training Modules</h2>
+    <p class="section-sub">Click any module card to view the full day-by-day schedule, learning resources, and objectives checklist.</p>
+    <div class="phases-grid" id="phases-grid"></div>
+  </section>
+
+  <!-- EVALUATION -->
+  <section class="section eval-section reveal">
+    <h2 class="section-title">End-of-Programme Evaluation</h2>
+    <p class="section-sub">Performance is evaluated across 5 criteria. All theory assignments must be passed, and a final demo is delivered on Day 120.</p>
+    <div class="eval-grid">
+      <div class="eval-card"><div class="eval-pct">30%</div><div class="eval-label">Theory Assignments</div><div class="eval-by">Mentor + Automated Tests</div></div>
+      <div class="eval-card"><div class="eval-pct">20%</div><div class="eval-label">MLflow Quality</div><div class="eval-by">ML Lead Review</div></div>
+      <div class="eval-card"><div class="eval-pct">20%</div><div class="eval-label">Feature Delivery</div><div class="eval-by">Team Lead Velocity</div></div>
+      <div class="eval-card"><div class="eval-pct">15%</div><div class="eval-label">Code Quality</div><div class="eval-by">Senior Engineers</div></div>
+      <div class="eval-card"><div class="eval-pct">15%</div><div class="eval-label">Final Demo</div><div class="eval-by">CTO Review</div></div>
+    </div>
+  </section>
+
+  <!-- ALL YT RESOURCES -->
+  <section class="section reveal">
+    <h2 class="section-title">📺 Learning Resources</h2>
+    <p class="section-sub">Every YouTube resource used in this programme, organised by phase.</p>
+    <div class="yt-grid">
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Python Machine Learning Tutorials</h4><p>Tech With Tim · Playlist</p></div><span class="yt-phase">1A</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Machine Learning with Python</h4><p>Simplilearn · Playlist</p></div><span class="yt-phase">1A</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Essential ML & AI Concepts Animated</h4><p>freeCodeCamp · Full Course</p></div><span class="yt-phase">1A</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Deep Learning Crash Course</h4><p>freeCodeCamp · Full Course</p></div><span class="yt-phase">1C</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Deep Learning Interview Prep (50 Qs)</h4><p>freeCodeCamp · Full Course</p></div><span class="yt-phase">1C</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>LangChain Tutorials & LLM</h4><p>codebasics · Playlist</p></div><span class="yt-phase">2A</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Generative AI using LangChain</h4><p>CampusX · Playlist</p></div><span class="yt-phase">2A</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Build an AI Agent From Scratch</h4><p>Tech With Tim · Tutorial</p></div><span class="yt-phase">2A</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>Python Advanced AI Voice Assistant</h4><p>Tech With Tim · Tutorial</p></div><span class="yt-phase">2A</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>ML Engineering for Production</h4><p>DeepLearningAI · Playlist</p></div><span class="yt-phase">2C</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>MLOps with MLflow & Databricks</h4><p>freeCodeCamp · Full Course</p></div><span class="yt-phase">2C</span></div>
+      <div class="yt-card"><div class="yt-icon">▶️</div><div class="yt-info"><h4>MLOps Playlist</h4><p>Krish Naik · Playlist</p></div><span class="yt-phase">2C</span></div>
+    </div>
+  </section>
+
+  <footer><p>© 2026 KALNET Engineering Programme · kalnet.co · All rights reserved</p></footer>
+
+  <script>
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+
+    // Scroll Reveal
+    const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+    // PHASE DATA
+    const phases=[
+      {id:'1a',color:'indigo',label:'Phase 1A · Days 1-14',title:'ML Foundations Theory',desc:'14 days of foundational ML covering the complete Python data science stack, classical ML algorithms, and end-to-end pipeline construction.',tags:['14 Days','Theory','Month 1'],
+        days:[
+          {day:'Day 1',topic:'Python ML environment: Anaconda, Jupyter, NumPy arrays, vectorised operations',goal:'NumPy exercise set with performance benchmarks vs loops'},
+          {day:'Day 2',topic:'Pandas: DataFrames, indexing, merging, groupby, handling missing values',goal:'EDA report on a provided dataset'},
+          {day:'Day 3',topic:'Data visualisation: Matplotlib & Seaborn — distributions, correlation heatmaps, pair plots',goal:'Visualisation notebook with 6 chart types'},
+          {day:'Day 4',topic:'Core ML theory: supervised vs unsupervised, bias-variance tradeoff, overfitting, train-test split',goal:'Written concept summary + bias-variance diagram'},
+          {day:'Day 5',topic:'Linear Regression: OLS, cost function, gradient descent, scikit-learn implementation',goal:'Regression model on housing dataset'},
+          {day:'Day 6',topic:'Logistic Regression and classification metrics: accuracy, precision, recall, F1, ROC-AUC',goal:'Classification model with confusion matrix'},
+          {day:'Day 7',topic:'K-Nearest Neighbours, Decision Trees: Gini impurity, entropy, tree visualisation',goal:'KNN vs DT comparison notebook'},
+          {day:'Day 8',topic:'Ensemble methods: Random Forest, Bagging, Boosting (AdaBoost, Gradient Boosting, XGBoost)',goal:'XGBoost model beating a baseline Random Forest'},
+          {day:'Day 9',topic:'Support Vector Machines: margin, kernels (RBF, polynomial), SVC in scikit-learn',goal:'SVM classifier with kernel comparison'},
+          {day:'Day 10',topic:'Unsupervised learning: K-Means clustering, DBSCAN, Hierarchical clustering, Elbow method',goal:'Customer segmentation notebook'},
+          {day:'Day 11',topic:'Dimensionality reduction: PCA, t-SNE, UMAP — intuition and implementation',goal:'PCA applied to a high-dimensional dataset'},
+          {day:'Day 12',topic:'Model evaluation: cross-validation, GridSearchCV, RandomizedSearchCV, learning curves',goal:'Hyperparameter-tuned model with CV report'},
+          {day:'Day 13',topic:'Feature engineering and selection: encoding, scaling, polynomial features, SelectKBest, RFE',goal:'Engineered feature set improving baseline score'},
+          {day:'Day 14',topic:'scikit-learn Pipelines: combining preprocessing and models; joblib model serialisation',goal:'Serialised Pipeline ready for deployment'}
+        ],
+        resources:[{icon:'▶️',title:'Python Machine Learning Tutorials — Tech With Tim'},{icon:'▶️',title:'Machine Learning with Python — Simplilearn'},{icon:'▶️',title:'Essential ML & AI Concepts Animated — freeCodeCamp'}],
+        checklist:['Perform a complete EDA, including missing value handling, outlier detection, and correlation analysis','Train, evaluate, and compare at least 4 different classifiers on the same dataset','Apply XGBoost with hyperparameter tuning and explain feature importance results','Build a full scikit-learn Pipeline with preprocessing and a serialised trained model','Articulate the bias-variance tradeoff and identify symptoms of overfitting in the learning curve']
+      },
+      {id:'1b',color:'amber',label:'Phase 1B · Days 15-17',title:'ML Foundations Assignment',desc:'Build a complete, production-quality ML pipeline from raw data to a serialised, documented model. Fully independent work.',tags:['3 Days','Assignment','Month 1'],
+        assignment:[
+          'Day 15: Receive brief (e.g. churn prediction). Perform full EDA, document findings in Jupyter, define success metrics, plan feature engineering strategy.',
+          'Day 16: Engineer features, build and compare at least 3 models (including one ensemble), run cross-validated hyperparameter tuning, produce evaluation report.',
+          'Day 17: Wrap best model in scikit-learn Pipeline, serialise with joblib, write README explaining model performance and tradeoffs. Submit via PR.'
+        ],
+        pass:'CV score exceeds baseline dummy classifier by at least 15%, Pipeline serialises and loads cleanly, README explains model choices and tradeoffs.'
+      },
+      {id:'1c',color:'indigo',label:'Phase 1C · Days 18-27',title:'Deep Learning Theory',desc:'10 focused days covering the mathematics and implementation of modern deep learning — from perceptrons to CNNs, LSTMs, and Transformers.',tags:['10 Days','Theory','Month 1'],
+        days:[
+          {day:'Day 18',topic:'Neural network fundamentals: perceptrons, layers, activation functions (ReLU, sigmoid, softmax)',goal:'Hand-built single-layer network in NumPy'},
+          {day:'Day 19',topic:'Backpropagation and gradient descent: chain rule, vanishing gradients, optimisers (SGD, Adam, RMSProp)',goal:'Visualised loss curves for 3 optimisers'},
+          {day:'Day 20',topic:'PyTorch fundamentals: tensors, autograd, computation graphs, CUDA basics',goal:'PyTorch tensor operations notebook'},
+          {day:'Day 21',topic:'Building and training neural networks in PyTorch: nn.Module, DataLoader, training loop',goal:'MLP classifier on tabular data in PyTorch'},
+          {day:'Day 22',topic:'Regularisation: dropout, batch normalisation, early stopping, learning rate scheduling',goal:'Regularised training with val loss tracking'},
+          {day:'Day 23',topic:'CNNs: convolution, pooling, stride, architecture patterns (LeNet, VGG, ResNet)',goal:'CNN image classifier on CIFAR-10'},
+          {day:'Day 24',topic:'Transfer learning: loading pre-trained weights (ResNet, EfficientNet), fine-tuning',goal:'Fine-tuned ResNet on a custom image set'},
+          {day:'Day 25',topic:'Sequence models: RNN, LSTM, GRU — handling variable-length sequences',goal:'LSTM time-series forecast notebook'},
+          {day:'Day 26',topic:'Transformer architecture: self-attention, multi-head attention, positional encoding',goal:'Attention weight visualisation diagram'},
+          {day:'Day 27',topic:'Hugging Face Transformers: loading BERT/GPT, tokenisers, inference pipeline',goal:'Sentiment classification with BERT'}
+        ],
+        resources:[{icon:'▶️',title:'Deep Learning Crash Course — freeCodeCamp'},{icon:'▶️',title:'Deep Learning Interview Prep (50 Qs) — freeCodeCamp'}],
+        checklist:['Explain backpropagation step-by-step and implement it manually in NumPy','Build and train a CNN in PyTorch achieving above 70% on CIFAR-10','Fine-tune a pre-trained ResNet on a new image classification task','Implement an LSTM for sequence prediction and explain vanishing gradients','Explain self-attention and draw the Transformer encoder from memory']
+      },
+      {id:'1d',color:'amber',label:'Phase 1D · Days 28-30',title:'Deep Learning Assignment',desc:'Build and evaluate a deep learning model on a real-world dataset, applying transfer learning and documenting training decisions.',tags:['3 Days','Assignment','Month 1'],
+        assignment:[
+          'Day 28: Receive brief (e.g. medical image classification). Load dataset, analyse class distribution, select pre-trained model, write training plan.',
+          'Day 29: Fine-tune model, implement early stopping and LR scheduling, track metrics, compare against non-transfer-learning baseline.',
+          'Day 30: Produce model card documenting architecture, dataset, training, evaluation, and failure cases. Submit notebook + model card + checkpoint via PR.'
+        ],
+        pass:'Fine-tuned model outperforms baseline by at least 10%, model card is complete, checkpoint loads and runs inference correctly.'
+      },
+      {id:'2a',color:'violet',label:'Phase 2A · Days 31-45',title:'LLMs, LangChain & AI Agents',desc:'15 days on the most in-demand enterprise AI skills: Large Language Models, LangChain, RAG, and intelligent agent construction.',tags:['15 Days','Theory','Month 2'],
+        days:[
+          {day:'Day 31',topic:'LLM fundamentals: how transformers scale, tokenisation, context windows, temperature',goal:'LLM vocabulary cheat sheet + token counting exercise'},
+          {day:'Day 32',topic:'Prompt engineering: zero-shot, few-shot, chain-of-thought, structured output',goal:'Prompt library with 5 enterprise use-case templates'},
+          {day:'Day 33',topic:'Anthropic Claude API: messages endpoint, system prompts, streaming, tool-use',goal:'Working Claude API integration in Python/FastAPI'},
+          {day:'Day 34',topic:'LangChain architecture: chains, prompt templates, LLMs, output parsers, LCEL',goal:'LCEL chain with structured JSON output'},
+          {day:'Day 35',topic:'Document loaders: PDF, web, CSV, Notion; text splitters; chunking strategies',goal:'Document ingestion pipeline for 3 file types'},
+          {day:'Day 36',topic:'Embeddings & vector databases: FAISS, Chroma, pgvector — similarity search',goal:'Semantic search over a local document corpus'},
+          {day:'Day 37',topic:'RAG pipeline: retriever, re-ranking, LLM synthesis, citation handling',goal:'End-to-end RAG pipeline on internal docs'},
+          {day:'Day 38',topic:'LangChain memory: ConversationBufferMemory, SummaryMemory, entity patterns',goal:'Multi-turn chatbot with persistent context'},
+          {day:'Day 39',topic:'LangChain agents: ReAct pattern, tool definitions, agent executor',goal:'Agent with 3 custom tools (search, calc, DB)'},
+          {day:'Day 40',topic:'Tool-use & function calling: Claude tool-use API, schema design, multi-step chains',goal:'Multi-step agent solving a business query'},
+          {day:'Day 41',topic:'Advanced agent patterns: planning agents, self-reflection, LLM-as-judge',goal:'Planning agent with self-critique loop'},
+          {day:'Day 42',topic:'Multi-agent systems: orchestration, handoffs, supervisor patterns (LangGraph)',goal:'Two-agent pipeline with supervisor routing'},
+          {day:'Day 43',topic:'Voice AI integration: Whisper (STT), TTS APIs, voice assistant pipeline',goal:'Voice assistant prototype with Python'},
+          {day:'Day 44',topic:'LLM evaluation: RAGAS metrics (faithfulness, relevance, recall), LangSmith',goal:'RAGAS evaluation report on RAG pipeline'},
+          {day:'Day 45',topic:'Production LLM: latency, cost optimisation, rate limits, fallback chains, guardrails',goal:'Cost analysis and guardrail implementation'}
+        ],
+        resources:[{icon:'▶️',title:'LangChain Tutorials & LLM — codebasics'},{icon:'▶️',title:'Generative AI using LangChain — CampusX'},{icon:'▶️',title:'Build an AI Agent From Scratch — Tech With Tim'},{icon:'▶️',title:'Python Advanced AI Voice Assistant — Tech With Tim'}],
+        checklist:['Build and evaluate a RAG pipeline with RAGAS faithfulness above 0.75','Implement an agent using at least 3 tools with graceful error handling','Integrate Anthropic Claude API with tool-use and structured output parsing','Set up LangSmith tracing and interpret a multi-step agent trace','Explain cost-latency tradeoffs between LLM providers and model sizes']
+      },
+      {id:'2b',color:'amber',label:'Phase 2B · Days 46-49',title:'LLM & AI Agent Assignment',desc:'Design and build a fully functional, production-ready AI assistant or RAG-powered application — the most technically complex assignment.',tags:['4 Days','Assignment','Month 2'],
+        assignment:[
+          'Day 46: Receive brief (e.g. internal Q&A bot). Define agent architecture: tools needed, memory strategy, retrieval approach. Write 1-page design doc.',
+          'Day 47: Ingest docs into vector store, build retrieval chain, integrate LLM synthesis with citation sources, implement conversation memory.',
+          'Day 48: Add at least 2 custom tools. Implement error handling and fallback behaviour. Run RAGAS evaluation on the RAG component.',
+          'Day 49: Wrap agent in FastAPI endpoint, write Postman collection, generate RAGAS report, submit via PR with recorded Loom demo.'
+        ],
+        pass:'FastAPI endpoint is live, RAGAS faithfulness above 0.70, agent handles 2+ tool calls correctly, Loom demo submitted.'
+      },
+      {id:'2c',color:'sky',label:'Phase 2C · Days 50-58',title:'MLOps & Production Theory',desc:'9 days covering the complete ML lifecycle in production: experiment tracking, containerisation, CI/CD, deployment, and monitoring.',tags:['9 Days','Theory','Month 2'],
+        days:[
+          {day:'Day 50',topic:'ML lifecycle overview: data versioning (DVC), experiment tracking, reproducibility',goal:'DVC-tracked dataset with version history'},
+          {day:'Day 51',topic:'MLflow: tracking experiments, logging parameters and metrics, artefact storage',goal:'MLflow experiment comparing 3 model variants'},
+          {day:'Day 52',topic:'MLflow model registry: staging, production, archival; loading via API',goal:'Registered model promoted to production stage'},
+          {day:'Day 53',topic:'Serving ML models: FastAPI + joblib/PyTorch; Pydantic input validation',goal:'REST API serving ML model predictions'},
+          {day:'Day 54',topic:'Containerising ML services: Docker, multi-stage builds, GPU considerations',goal:'Dockerised FastAPI ML service'},
+          {day:'Day 55',topic:'CI/CD for ML: GitHub Actions — lint, test, retrain trigger, deploy',goal:'Automated retraining pipeline on data change'},
+          {day:'Day 56',topic:'Databricks: compute clusters, notebooks, Delta Lake, MLflow on Databricks',goal:'Databricks notebook reproducing Day 51 experiment'},
+          {day:'Day 57',topic:'Model monitoring: drift detection (Evidently AI), prediction drift, alerting',goal:'Drift detection report on simulated data'},
+          {day:'Day 58',topic:'Deployment patterns: batch inference, real-time API, shadow deployment, A/B testing',goal:'Shadow deployment plan document'}
+        ],
+        resources:[{icon:'▶️',title:'ML Engineering for Production — DeepLearningAI'},{icon:'▶️',title:'MLOps with MLflow & Databricks — freeCodeCamp'},{icon:'▶️',title:'MLOps Playlist — Krish Naik'}],
+        checklist:['Track a full experiment run in MLflow including parameters, metrics, and artefacts','Wrap a trained model in FastAPI with Pydantic validation and OpenAPI docs','Build a GitHub Actions pipeline that retrains and re-registers on data change','Run an Evidently AI drift report and explain which features drifted','Distinguish batch, real-time, and shadow deployment patterns']
+      },
+      {id:'2d',color:'amber',label:'Phase 2D · Days 59-60',title:'MLOps Assignment',desc:'Take the Phase 1B model and put it into production — fully tracked, containerised, served, and monitored. The bridge to live project work.',tags:['2 Days','Assignment','Month 2'],
+        assignment:[
+          'Day 59: Register Phase 1B model in MLflow, promote to Production, wrap in FastAPI with Pydantic, containerise with Docker, write GitHub Actions CI pipeline.',
+          'Day 60: Set up Evidently AI drift report, configure alerting, write model card with deployment instructions, submit deployed URL + MLflow URL + drift report via PR.'
+        ],
+        pass:'MLflow model in Production stage, FastAPI container runs, CI pipeline green, drift report renders, model card complete.'
+      },
+      {id:'3',color:'emerald',label:'Phase 3 · Days 61-120',title:'Industry-Level Live Project',desc:'Embedded in real KALNET AI/ML product teams. 7 sprints of real engineering work with mentorship support — not instructional.',tags:['60 Days','Live Project','Month 3-4'],
+        sprints:[
+          {name:'Sprint 0',days:'Days 61-64',focus:'Codebase onboarding: data pipelines, model registry, infra, tooling setup',gate:'Environment running',color:'rgba(79,70,229,.08)',textColor:'var(--primary)'},
+          {name:'Sprint 1',days:'Days 65-74',focus:'First ML task: retrain or fine-tune a model, log in MLflow, open PR',gate:'PR merged',color:'rgba(79,70,229,.08)',textColor:'var(--primary)'},
+          {name:'Sprint 2',days:'Days 75-84',focus:'Own a data pipeline module: ingestion, validation, feature engineering, DVC',gate:'Pipeline live in staging',color:'rgba(124,58,237,.08)',textColor:'var(--violet)'},
+          {name:'Sprint 3',days:'Days 85-94',focus:'Build or improve an LLM-powered feature: RAG, agent tool, or extraction',gate:'Feature in production',color:'rgba(124,58,237,.08)',textColor:'var(--violet)'},
+          {name:'Sprint 4',days:'Days 95-104',focus:'Model monitoring: drift detection, dashboards, and alerting on live model',gate:'Monitoring dashboard live',color:'rgba(5,150,105,.08)',textColor:'var(--emerald)'},
+          {name:'Sprint 5',days:'Days 105-114',focus:'Independent feature: design, implement, test, document a new AI capability',gate:'Feature in production',color:'rgba(5,150,105,.08)',textColor:'var(--emerald)'},
+          {name:'Sprint 6',days:'Days 115-120',focus:'Final sprint: polish, documentation, knowledge transfer, demo',gate:'Handover doc + demo',color:'rgba(220,38,38,.08)',textColor:'var(--red)'}
+        ]
+      }
+    ];
+
+    // Render phase cards
+    const grid=document.getElementById('phases-grid');
+    phases.forEach(p=>{
+      const card=document.createElement('div');
+      card.className='phase-card';card.dataset.color=p.color;
+      card.innerHTML=`<div class="pc-label" style="color:var(--${p.color==='sky'?'sky':p.color})">${p.label}</div><h3 class="pc-title">${p.title}</h3><p class="pc-desc">${p.desc}</p><div class="pc-meta">${p.tags.map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div><span class="pc-arrow">→</span>`;
+      card.addEventListener('click',()=>openModal(p));
+      grid.appendChild(card);
+    });
+
+    // Modal logic
+    function openModal(p){
+      document.getElementById('modal-title').textContent=p.title;
+      document.getElementById('modal-subtitle').textContent=p.label;
+      const body=document.getElementById('modal-body');
+      let html='';
+
+      if(p.days){
+        html+=`<table class="day-table"><thead><tr><th>Day</th><th>Topic</th><th>Deliverable</th></tr></thead><tbody>`;
+        p.days.forEach(d=>html+=`<tr><td>${d.day}</td><td class="topic">${d.topic}</td><td class="deliverable">${d.goal}</td></tr>`);
+        html+=`</tbody></table>`;
+      }
+      if(p.assignment){
+        html+=`<h4 style="font-size:15px;font-weight:700;margin-bottom:12px">📋 Assignment Steps</h4><ol class="assignment-steps">`;
+        p.assignment.forEach(s=>html+=`<li>${s}</li>`);
+        html+=`</ol>`;
+      }
+      if(p.pass){
+        html+=`<div class="pass-criteria"><h4>✅ Pass Criteria</h4><p>${p.pass}</p></div>`;
+      }
+      if(p.sprints){
+        html+=`<div class="sprint-cards">`;
+        p.sprints.forEach(s=>{
+          html+=`<div class="sprint-card"><div class="sprint-num" style="background:${s.color};color:${s.textColor}">${s.name.replace('Sprint ','S')}</div><div class="sprint-body"><h4>${s.name} <span style="font-weight:400;color:var(--text-muted);font-size:12px">(${s.days})</span></h4><p>${s.focus}</p><span class="sprint-gate" style="background:${s.color};color:${s.textColor}">Gate: ${s.gate}</span></div></div>`;
+        });
+        html+=`</div>`;
+        html+=`<div style="margin-top:20px;padding:18px;background:var(--bg2);border:1px solid var(--border);border-radius:12px"><h4 style="font-size:14px;font-weight:700;margin-bottom:10px">🔄 Sprint Ceremonies</h4>`;
+        html+=`<div class="check-item">Daily stand-up (15 min): What did I work on? What is next? Blockers?</div>`;
+        html+=`<div class="check-item">Every 2 weeks: Sprint planning, sprint review (demo), sprint retrospective</div>`;
+        html+=`<div class="check-item">Weekly: 1:1 with assigned ML mentor (30 min)</div></div>`;
+        html+=`<div style="margin-top:16px;padding:18px;background:rgba(220,38,38,.04);border:1px solid rgba(220,38,38,.12);border-radius:12px"><h4 style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:10px">⚠️ Engineering Standards</h4>`;
+        ['All training runs tracked in MLflow — untracked experiments not reviewed','No model to staging without passing tests and a model card','PRs must include change description, metrics before/after, testing steps','Blockers raised within 4 hours — do not sit on a problem past half a day','All datasets versioned with DVC — no unversioned data','No hardcoded API keys — use environment variables and secrets manager'].forEach(s=>html+=`<div class="check-item" style="color:var(--red)">${s}</div>`);
+        html+=`</div>`;
+      }
+      if(p.resources){
+        html+=`<div class="resources-card" style="margin-top:20px"><h4>📺 Learning Resources</h4>`;
+        p.resources.forEach(r=>html+=`<div class="res-link"><span class="ri">${r.icon}</span>${r.title}</div>`);
+        html+=`</div>`;
+      }
+      if(p.checklist){
+        html+=`<div class="checklist" style="margin-top:12px"><h4>☑️ Learning Objectives</h4>`;
+        p.checklist.forEach(c=>html+=`<div class="check-item">${c}</div>`);
+        html+=`</div>`;
+      }
+      body.innerHTML=html;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow='hidden';
+    }
+
+    document.getElementById('modal-close').addEventListener('click',closeModal);
+    document.getElementById('modal-overlay').addEventListener('click',(e)=>{if(e.target===document.getElementById('modal-overlay'))closeModal()});
+    function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow=''}
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+  </script>
+  <script type="module" src="./pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KALNET | Intern Dashboard</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./dashboard-ui.css" />
+</head>
+<body data-dashboard-role="intern">
+  <div class="toast" id="toast"></div>
+
+  <nav class="topnav">
+    <a href="index.html" class="topnav-logo">
+      <div class="ico">K</div>
+      <span>KALNET<em>.AI</em></span>
+    </a>
+    <div class="topnav-right">
+      <a href="work.html" class="topnav-link">Programme</a>
+      <a href="profile.html" class="topnav-link">My Profile</a>
+      <div class="topnav-user">
+        <div id="nav-avatar"></div>
+        <span id="nav-name">Intern</span>
+      </div>
+      <button class="btn btn-danger btn-compact" id="logout-btn">Sign Out</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="work.html">Programme</a>
+    <a href="profile.html">My Profile</a>
+    <a href="index.html">Home</a>
+    <button id="mobile-logout">Sign Out</button>
+  </div>
+
+  <main class="dash-layout">
+    <section class="column left-col">
+      <article class="card user-card">
+        <div id="user-card-photo"></div>
+        <div class="user-card-name" id="user-card-name">Intern</div>
+        <div class="user-card-email" id="user-card-email">intern@example.com</div>
+        <div class="pill-row" id="user-pills"></div>
+      </article>
+
+      <article class="card">
+        <div class="card-title">Active Students <span class="badge" id="intern-count">0</span></div>
+        <div class="roster-list" id="roster-list">
+          <div class="empty-state">Loading students...</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-title" id="role-tools-title">Submit Deliverable</div>
+        <div class="role-tools-body" id="role-tools-body"></div>
+      </article>
+    </section>
+
+    <section class="column center-col">
+      <article class="card" id="ai-assistant">
+        <div class="section-header">
+          <div>
+            <h2>KALNET AI Mentor</h2>
+            <p>Ask about any training day, deliverable, concept, or attach code for debugging help.</p>
+          </div>
+          <div class="ai-header-tools">
+            <span class="badge">Groq</span>
+            <label class="sr-only" for="ai-model">Model</label>
+            <select id="ai-model" class="ai-model-select" aria-label="Select AI model">
+              <option value="llama-3.3-70b-versatile" selected>3.3 70B</option>
+              <option value="llama-3.1-70b-versatile">3.1 70B</option>
+              <option value="llama3-8b-8192">3 8B</option>
+            </select>
+          </div>
+        </div>
+        <div class="ai-chat-log" id="ai-log"></div>
+        <div class="ai-attachment" id="ai-attachment"></div>
+        <div class="field" style="margin-top:14px">
+          <label for="ai-input">Question or Code Request</label>
+          <textarea id="ai-input" class="control-textarea" placeholder="Example: Explain Day 1 in detail, or debug the attached code. Use Ctrl/Cmd + Enter to send."></textarea>
+        </div>
+        <div class="action-row" style="margin-top:14px">
+          <label class="btn btn-secondary btn-compact" for="ai-file">Attach Code/File</label>
+          <input id="ai-file" type="file" accept=".py,.js,.ts,.jsx,.tsx,.html,.css,.json,.md,.txt,.ipynb" hidden />
+          <button class="btn btn-primary btn-compact" id="ai-send" type="button">Ask AI Mentor</button>
+          <button class="btn btn-secondary btn-compact" id="ai-clear" type="button">Clear Chat</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-title">Global Activity Feed <span class="badge">Live</span></div>
+        <div class="feed-list" id="feed-list">
+          <div class="empty-state">No deliverables yet.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-header">
+          <div>
+            <h2>Engineering Q&amp;A Board</h2>
+            <p id="qa-subtitle">Raise doubts, claim problems, and help your batchmates.</p>
+          </div>
+          <button class="btn btn-primary btn-compact" id="raise-btn">Raise Doubt</button>
+        </div>
+        <div class="qa-list" id="qa-list">
+          <div class="empty-state">No doubts yet.</div>
+        </div>
+      </article>
+    </section>
+
+    <section class="column right-col">
+      <article class="card">
+        <div class="card-title">Student Inspector</div>
+        <div class="inspector-empty" id="inspector-empty">
+          <span class="icon">View</span>
+          <div>Select a student from the roster to inspect their details and links.</div>
+        </div>
+        <div class="inspector" id="inspector-detail" hidden></div>
+      </article>
+
+      <article class="card">
+        <div class="card-title">Meeting Schedule <span class="badge" id="meeting-count">0</span></div>
+        <div class="meeting-controls" id="meeting-controls"></div>
+        <div class="meeting-list" id="meeting-list">
+          <div class="empty-state">No meetings scheduled yet.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-title">Support Tickets <span class="badge" id="ticket-count">0</span></div>
+        <div class="ticket-controls" id="ticket-controls"></div>
+        <div class="ticket-list" id="ticket-list">
+          <div class="empty-state">No tickets raised yet.</div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <button class="chat-fab" id="chat-fab" type="button">Chat</button>
+
+  <div class="chat-overlay" id="chat-overlay"></div>
+  <aside class="chat-panel" id="chat-panel">
+    <div class="chat-panel-header">
+      <h3>Global Chat</h3>
+      <button class="chat-close" id="chat-close" type="button">x</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="empty-state">No chat messages yet.</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" class="chat-input" id="chat-input" placeholder="Type your message" maxlength="500" />
+      <button class="btn btn-primary btn-compact chat-send" id="chat-send" type="button">Send</button>
+    </div>
+  </aside>
+
+  <div class="modal-overlay" id="doubt-modal">
+    <div class="modal">
+      <h3>Raise a Doubt</h3>
+      <p>Describe the problem clearly so another intern can pick it up fast.</p>
+      <div class="field" style="margin-top:16px">
+        <textarea id="doubt-text" class="control-textarea" placeholder="Explain the issue you need help with"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-compact" id="doubt-cancel" type="button">Cancel</button>
+        <button class="btn btn-primary btn-compact" id="doubt-submit" type="button">Post Doubt</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./dashboard-app.js"></script>
+  <script type="module" src="./pwa.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KALNET | Portal Access</title>
+  <meta name="description" content="KALNET Global portal access for recruiters and interns. Recruiters manage onboarding, meetings, tickets, and exports from one role-based workspace." />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; font-family: "Inter", sans-serif; color: #111827; background: #f8f7f4; }
+    .page { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 480px; }
+    .brand-side { padding: 64px 6vw; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+    .auth-side { padding: 48px 36px; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.8); backdrop-filter: blur(18px); }
+    .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .22; pointer-events: none; }
+    .orb.a { width: 460px; height: 460px; background: radial-gradient(circle, #818cf8, transparent); top: -120px; left: -120px; }
+    .orb.b { width: 360px; height: 360px; background: radial-gradient(circle, #a78bfa, transparent); right: -100px; bottom: -100px; }
+    .brand-badge { width: fit-content; padding: 8px 16px; border-radius: 999px; background: rgba(79,70,229,.08); border: 1px solid rgba(79,70,229,.18); color: #4f46e5; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+    h1 { margin-top: 20px; font-size: clamp(40px, 6vw, 74px); line-height: 1.02; letter-spacing: -2px; }
+    h1 span { background: linear-gradient(135deg, #4f46e5, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .lead { margin-top: 22px; max-width: 720px; color: #6b7280; font-size: 19px; line-height: 1.75; }
+    .points { margin-top: 34px; display: grid; gap: 14px; max-width: 680px; }
+    .point { padding: 18px 20px; border-radius: 18px; background: rgba(255,255,255,.72); border: 1px solid rgba(0,0,0,.06); box-shadow: 0 14px 36px rgba(0,0,0,.04); }
+    .point strong { display: block; font-size: 15px; }
+    .point p { margin-top: 6px; color: #6b7280; font-size: 14px; line-height: 1.6; }
+    .stats { margin-top: 28px; display: flex; gap: 14px; flex-wrap: wrap; }
+    .stat { min-width: 160px; padding: 20px 22px; border-radius: 18px; background: #fff; border: 1px solid rgba(0,0,0,.06); box-shadow: 0 18px 40px rgba(0,0,0,.05); }
+    .stat-number { font-size: 36px; font-weight: 900; color: #4f46e5; }
+    .stat-label { margin-top: 6px; color: #6b7280; font-size: 12px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; }
+    .auth-card { width: 100%; max-width: 380px; padding: 30px; border-radius: 28px; background: #fff; border: 1px solid rgba(0,0,0,.08); box-shadow: 0 28px 70px rgba(0,0,0,.08); }
+    .auth-card h2 { font-size: 30px; font-weight: 900; letter-spacing: -1px; }
+    .auth-copy { margin-top: 10px; color: #6b7280; font-size: 14px; line-height: 1.7; }
+    .helper { margin-top: 18px; padding: 14px 16px; border-radius: 14px; background: rgba(79,70,229,.06); color: #4b5563; font-size: 13px; line-height: 1.6; }
+    .form { margin-top: 22px; display: grid; gap: 14px; }
+    .field label { display: block; margin-bottom: 8px; color: #6b7280; font-size: 12px; font-weight: 800; letter-spacing: .9px; text-transform: uppercase; }
+    .field input { width: 100%; padding: 14px 15px; border-radius: 14px; border: 1.5px solid rgba(0,0,0,.08); background: #fafafa; font-size: 15px; outline: none; transition: .2s ease; }
+    .field input:focus { background: #fff; border-color: rgba(79,70,229,.55); box-shadow: 0 0 0 4px rgba(79,70,229,.08); }
+    .btn { width: 100%; padding: 15px 18px; border: none; border-radius: 14px; cursor: pointer; font-size: 15px; font-weight: 800; transition: .2s ease; }
+    .btn-primary { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; box-shadow: 0 16px 36px rgba(79,70,229,.22); }
+    .btn-primary:hover { transform: translateY(-1px); }
+    .btn-google { margin-top: 12px; background: #fff; color: #111827; border: 1.5px solid rgba(0,0,0,.08); box-shadow: none; }
+    .btn-google:hover { background: #f8fafc; transform: translateY(-1px); }
+    .auth-links { margin-top: 18px; display: grid; gap: 10px; }
+    .auth-link { text-align: center; color: #6b7280; font-size: 14px; line-height: 1.6; }
+    .auth-link a { color: #4f46e5; font-weight: 800; text-decoration: none; }
+    .auth-link a:hover { text-decoration: underline; }
+    footer { margin-top: 30px; text-align: center; color: #6b7280; font-size: 13px; line-height: 1.7; }
+    footer a { color: #4f46e5; font-weight: 800; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 100px); opacity: 0; padding: 12px 18px; border-radius: 12px; background: #111827; color: #fff; font-size: 13px; font-weight: 700; transition: .3s ease; box-shadow: 0 14px 30px rgba(0,0,0,.18); }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+    .toast.error { background: #dc2626; }
+    .toast.success { background: #059669; }
+    @media (max-width: 980px) {
+      .page { grid-template-columns: 1fr; }
+      .auth-side { border-left: none; border-top: 1px solid rgba(0,0,0,.08); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="brand-side">
+      <div class="orb a"></div>
+      <div class="orb b"></div>
+      <div class="brand-badge">2026 Portal Access</div>
+      <h1>One portal, <span>two secure roles</span>.</h1>
+      <p class="lead">This portal is for KALNET Global interns and recruiters. KALNET Global positions itself around AI-powered institutional software, modern digital operations, workflow automation, and execution-focused enterprise systems.</p>
+
+      <div class="points">
+        <div class="point">
+          <strong>Startup operating rhythm</strong>
+          <p>The portal is built to support a startup-style workflow where recruiters can onboard interns fast, organize batches, and keep activity visible from one place.</p>
+        </div>
+        <div class="point">
+          <strong>Operational strengths</strong>
+          <p>It focuses on practical execution: structured learning, meeting coordination, issue resolution, task tracking, and recruiter-level visibility for every student.</p>
+        </div>
+        <div class="point">
+          <strong>Role-based control</strong>
+          <p>Recruiters control account creation and group assignment. Interns get their own workspace with the exact access they need and nothing extra.</p>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-number" id="stat-interns">-</div>
+          <div class="stat-label">Active Students</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" id="stat-deliverables">-</div>
+          <div class="stat-label">Deliverables Submitted</div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="auth-side">
+      <div class="auth-card">
+        <h2>Sign In</h2>
+        <p class="auth-copy">Use the credentials already assigned to you. Recruiters and interns both sign in here.</p>
+        <div class="helper">Intern reminder: use your email address in the first field and your phone number in the password field.</div>
+
+        <form class="form" id="signin-form">
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" type="email" autocomplete="username" placeholder="name@company.com" required />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" placeholder="Password or phone number" required />
+          </div>
+          <button class="btn btn-primary" id="signin-btn" type="submit">Enter Portal</button>
+          <button class="btn btn-google" id="google-signin-btn" type="button">Recruiter Sign In with Google</button>
+        </form>
+
+        <div class="auth-links">
+          <div class="auth-link">Recruiter without an account yet? <a href="signup.html">Create recruiter access</a></div>
+          <div class="auth-link">Need the learning roadmap first? <a href="work.html">Open the programme page</a></div>
+        </div>
+
+        <footer>
+          Designed by <a href="https://www.kalnet.co/" target="_blank" rel="noreferrer">KALNET Global</a> and
+          <a href="https://kaifwebsite666.netlify.app/" target="_blank" rel="noreferrer">Mohammed Kaif</a>.
+        </footer>
+      </div>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import {
+      db,
+      redirectAuthenticatedUserToDashboard,
+      signInRecruiterWithGoogle,
+      signInWithPortalCredentials,
+      signOutUser,
+      linkGoogleToExistingRecruiter,
+    } from "./portal-core.js";
+
+    const toastElement = document.getElementById("toast");
+    const showToast = (message, type = "") => {
+      toastElement.textContent = message;
+      toastElement.className = `toast ${type}`.trim();
+      toastElement.classList.add("show");
+      clearTimeout(toastElement._timer);
+      toastElement._timer = setTimeout(() => toastElement.classList.remove("show"), 3200);
+    };
+
+    const redirected = await redirectAuthenticatedUserToDashboard();
+    if (!redirected) {
+      try {
+        const [internsSnapshot, deliverablesSnapshot] = await Promise.all([
+          getDocs(collection(db, "interns")),
+          getDocs(collection(db, "deliverables")),
+        ]);
+        const activeInterns = internsSnapshot.docs.filter((doc) => {
+          const data = doc.data();
+          return data.role !== "recruiter" && data.group !== "Recruiter";
+        }).length;
+        document.getElementById("stat-interns").textContent = String(activeInterns);
+        document.getElementById("stat-deliverables").textContent = String(deliverablesSnapshot.size);
+      } catch {
+        document.getElementById("stat-interns").textContent = "-";
+        document.getElementById("stat-deliverables").textContent = "-";
+      }
+    }
+
+    document.getElementById("signin-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (!email || !password) {
+        showToast("Enter both email and password.", "error");
+        return;
+      }
+
+      const button = document.getElementById("signin-btn");
+      button.disabled = true;
+      button.textContent = "Signing In...";
+
+      try {
+        await signInWithPortalCredentials(email, password);
+        await redirectAuthenticatedUserToDashboard();
+      } catch (error) {
+        showToast(`Sign in failed: ${error.message}`, "error");
+        button.disabled = false;
+        button.textContent = "Enter Portal";
+      }
+    });
+
+    document.getElementById("google-signin-btn").addEventListener("click", async () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        const result = await signInRecruiterWithGoogle();
+        if (result.status === "signed_in") {
+          if (result.profile?.role !== "recruiter") {
+            await signOutUser();
+            showToast("Google recruiter access is only available for recruiter accounts.", "error");
+            return;
+          }
+          await redirectAuthenticatedUserToDashboard();
+          return;
+        }
+
+        if (result.status === "needs_signup") {
+          window.location.href = "signup.html?google=1";
+          return;
+        }
+
+        if (result.status === "needs_link") {
+          const phonePassword = password || window.prompt("Enter the recruiter phone password to link Google sign-in.");
+          if (!phonePassword) {
+            showToast("Phone password is required to link Google sign-in.", "error");
+            return;
+          }
+          const linked = await linkGoogleToExistingRecruiter({
+            email: result.email || email,
+            password: phonePassword,
+            pendingCredential: result.pendingCredential,
+          });
+          if (linked.profile?.role !== "recruiter") {
+            await signOutUser();
+            showToast("This Google account is not linked to a recruiter profile.", "error");
+            return;
+          }
+          showToast("Google sign-in linked successfully.", "success");
+          await redirectAuthenticatedUserToDashboard();
+        }
+      } catch (error) {
+        showToast(`Google sign-in failed: ${error.message}`, "error");
+      }
+    });
+  </script>
+  <script type="module" src="./pwa.js"></script>
+</body>
+</html>

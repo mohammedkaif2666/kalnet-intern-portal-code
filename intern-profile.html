@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>KALNET | Intern Profile</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#F8F7F4;--bg2:#fff;--primary:#4F46E5;--violet:#7C3AED;--emerald:#059669;--amber:#D97706;--red:#DC2626;--text:#111827;--text-muted:#6B7280;--border:rgba(0,0,0,.08);--r:16px}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);display:none;min-height:100vh}
+    .bg-orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.15;pointer-events:none;z-index:0}
+    .orb1{width:500px;height:500px;background:radial-gradient(circle,#818CF8,transparent);top:-200px;left:-200px}
+    .orb2{width:400px;height:400px;background:radial-gradient(circle,#6EE7B7,transparent);bottom:-100px;right:-100px}
+    nav{position:sticky;top:0;z-index:100;background:rgba(248,247,244,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 5%;height:72px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .nav-logo .ico{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4F46E5,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:16px}
+    .nav-logo span{font-size:20px;font-weight:800;color:var(--text)}.nav-logo em{font-style:normal;color:var(--primary)}
+    .nav-links{display:flex;gap:8px;align-items:center}
+    .nav-link{color:var(--text-muted);text-decoration:none;font-size:15px;font-weight:500;padding:8px 16px;border-radius:8px;transition:.2s}
+    .nav-link:hover{color:var(--text);background:rgba(0,0,0,.04)}
+    .hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px}
+    .hamburger span{display:block;width:20px;height:2px;background:var(--text);margin:4px 0;border-radius:2px;transition:.3s}
+    .mobile-menu{display:none;position:fixed;inset:0;top:60px;background:rgba(248,247,244,.98);backdrop-filter:blur(20px);z-index:199;flex-direction:column;padding:20px 5%;gap:6px}
+    .mobile-menu.open{display:flex}
+    .mobile-menu a{color:var(--text);text-decoration:none;font-size:16px;font-weight:600;padding:14px 16px;border-radius:12px;transition:.2s}
+    .mobile-menu a:hover{background:rgba(79,70,229,.06);color:var(--primary)}
+    @media(max-width:768px){.nav-links{display:none}.hamburger{display:block}}
+    main{max-width:1440px;margin:0 auto;padding:60px 5% 100px;position:relative;z-index:1}
+    .card{background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:40px;box-shadow:0 2px 6px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.06);margin-bottom:32px}
+
+    /* Hero card */
+    .hero-card{display:flex;gap:36px;align-items:center;flex-wrap:wrap}
+    .hero-photo{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid rgba(79,70,229,.15);flex-shrink:0}
+    .hero-photo-ph{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--violet));display:flex;align-items:center;justify-content:center;color:#fff;font-size:42px;font-weight:800;flex-shrink:0}
+    .hero-info{flex:1;min-width:0}
+    .hero-name{font-size:36px;font-weight:900;letter-spacing:-1px}
+    .hero-email{font-size:15px;color:var(--text-muted);margin-top:4px}
+    .hero-badges{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+    .badge{font-size:13px;font-weight:700;padding:6px 16px;border-radius:100px}
+    .badge-group{background:rgba(79,70,229,.08);color:var(--primary)}
+    .badge-credits{background:rgba(5,150,105,.08);color:var(--emerald)}
+    .badge-recruiter{background:rgba(217,119,6,.08);color:var(--amber)}
+
+    /* Links */
+    .links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    .link-item{display:flex;align-items:center;gap:12px;padding:14px 20px;border-radius:14px;text-decoration:none;font-size:15px;font-weight:700;transition:.2s;border:1px solid var(--border)}
+    .link-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+    .link-item .li-icon{font-size:22px;flex-shrink:0}
+    .link-wa{color:#25D366;background:rgba(37,211,102,.04)}.link-wa:hover{background:rgba(37,211,102,.1)}
+    .link-gh{color:#333;background:rgba(0,0,0,.02)}.link-gh:hover{background:rgba(0,0,0,.06)}
+    .link-li{color:#0A66C2;background:rgba(10,102,194,.04)}.link-li:hover{background:rgba(10,102,194,.1)}
+    .link-pf{color:var(--violet);background:rgba(124,58,237,.04)}.link-pf:hover{background:rgba(124,58,237,.1)}
+    .no-links{color:var(--text-muted);font-size:15px;font-style:italic;padding:12px 0}
+
+    /* Stats */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .stat-box{text-align:center;padding:24px 14px;border-radius:18px;background:#FAFAFA;border:1px solid var(--border)}
+    .stat-num{font-size:36px;font-weight:900;color:var(--primary)}
+    .stat-label{font-size:13px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-top:6px}
+
+    /* Showcase */
+    .showcase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .showcase-img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:16px;border:1px solid var(--border);cursor:pointer;transition:.2s}
+    .showcase-img:hover{transform:scale(1.03);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+    .no-photos{color:var(--text-muted);font-size:15px;font-style:italic;padding:16px 0}
+
+    /* Activity */
+    .activity-list{display:flex;flex-direction:column;gap:12px}
+    .act-item{display:flex;gap:16px;padding:20px;border-radius:14px;background:#FAFAFA;border:1px solid var(--border)}
+    .act-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .act-body{flex:1;min-width:0}
+    .act-title{font-size:15px;font-weight:700}
+    .act-meta{font-size:13px;color:var(--text-muted);margin-top:4px}
+    .act-link{font-size:14px;color:var(--primary);text-decoration:none;font-weight:700;margin-top:8px;display:inline-block}
+    .act-link:hover{text-decoration:underline}
+    .empty{color:var(--text-muted);font-size:15px;font-style:italic;text-align:center;padding:32px}
+
+    .card-title{font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:999;display:none;align-items:center;justify-content:center;cursor:pointer;padding:20px}
+    .lightbox.open{display:flex}
+    .lightbox img{max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.4)}
+
+    @media(max-width:700px){.stats-grid{grid-template-columns:repeat(2,1fr)}.hero-card{flex-direction:column;text-align:center}.hero-badges{justify-content:center}.links-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb1"></div><div class="bg-orb orb2"></div>
+  <div class="lightbox" id="lightbox"><img id="lb-img" src="" alt=""/></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><div class="ico">⚡</div><span>KALNET<em>.AI</em></span></a>
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-link">📊 Dashboard</a>
+      <a href="work.html" class="nav-link">📋 Programme</a>
+      <a href="profile.html" class="nav-link">👤 Profile</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="work.html">📋 Programme</a>
+    <a href="profile.html">👤 My Profile</a>
+    <a href="index.html">🏠 Home</a>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <div class="card" id="hero-card"><div class="empty">Loading profile...</div></div>
+
+    <!-- Contact Links -->
+    <div class="card" id="links-card" style="display:none">
+      <div class="card-title">🔗 Contact & Links</div>
+      <div class="links-grid" id="links-grid"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="card" id="stats-card" style="display:none">
+      <div class="card-title">📊 Activity Stats</div>
+      <div class="stats-grid" id="stats-grid"></div>
+    </div>
+
+    <!-- Showcase Photos -->
+    <div class="card" id="showcase-card" style="display:none">
+      <div class="card-title">📸 Showcase Photos</div>
+      <div class="showcase-grid" id="showcase-grid"></div>
+    </div>
+
+    <!-- Deliverables / Work -->
+    <div class="card">
+      <div class="card-title">🚀 Submitted Work</div>
+      <div class="activity-list" id="work-list"><div class="empty">Loading work...</div></div>
+    </div>
+
+    <!-- Q&A Activity -->
+    <div class="card">
+      <div class="card-title">🧠 Q&A Activity</div>
+      <div class="activity-list" id="qa-list"><div class="empty">Loading...</div></div>
+    </div>
+  </main>
+
+  <script type="module">
+    import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import{getFirestore,doc,getDoc,collection,query,where,getDocs}from"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const _d=(s,k)=>{let r=atob(s),o='';for(let i=0;i<r.length;i++){o+=String.fromCharCode(r.charCodeAt(i)^k.charCodeAt(i%k.length))}return o};
+    const _k='KALNET_SECRET_2026';
+    const cfg={
+      apiKey:_d("Cgg2LxYtGzcHGj8hBCt1dHVDCSgpJhY/HDYdMxYDMz1TAwR4HnJ4",_k),
+      authDomain:_d("ICAgICAgcjorNzc3OnJCX0BCKi1iKCwmOjEkMDckJC8cU11b",_k),
+      projectId:_d("ICAgICAgcjorNzc3OnJCX0BCKi0=",_k),
+      storageBucket:_d("ICAgICAgcjorNzc3OnJCX0BCKi1iKCwmOjEkMDc2IDBAUVVTZSA8Pg==",_k),
+      messagingSenderId:_d("f3F8fHNha2Rzd2F0",_k),
+      appId:_d("ent4fnVmaWZxdGRxZ24IR1dUcSB6fiE2PmByJWB2ZGhTAFYHeyAofSQ=",_k)
+    };
+    const app=initializeApp(cfg),auth=getAuth(app),db=getFirestore(app);
+
+    const params=new URLSearchParams(window.location.search);
+    const targetUid=params.get('uid');
+
+    if(!targetUid){window.location.replace('dashboard.html');}
+
+    function ago(ts){if(!ts)return'';const s=Math.floor((Date.now()-ts.toDate().getTime())/1000);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago'}
+    function initials(n){return(n||'??').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+    // Sort docs by timestamp descending (client-side, no index needed)
+    function sortByTime(docs){return docs.sort((a,b)=>{const ta=a.timestamp?.toDate?.()?.getTime()||0;const tb=b.timestamp?.toDate?.()?.getTime()||0;return tb-ta})}
+
+    // Auth guard
+    onAuthStateChanged(auth,async u=>{
+      if(!u){window.location.replace('index.html');return}
+      document.body.style.display='block';
+      await loadProfile();
+    });
+
+    async function loadProfile(){
+      const snap=await getDoc(doc(db,'interns',targetUid));
+      if(!snap.exists()){document.getElementById('hero-card').innerHTML='<div class="empty">Profile not found.</div>';return}
+      const d=snap.data();
+      document.title='KALNET | '+d.name;
+
+      // Hero
+      const photoHTML=d.photoURL?`<img class="hero-photo" src="${d.photoURL}" alt=""/>`:
+        `<div class="hero-photo-ph">${initials(d.name)}</div>`;
+      const isRecruiter=d.group==='Recruiter';
+      document.getElementById('hero-card').innerHTML=`
+        <div class="hero-card">${photoHTML}<div class="hero-info">
+          <div class="hero-name">${d.name||'Unknown'}</div>
+          <div class="hero-email">${d.email||''}</div>
+          <div class="hero-badges">
+            <span class="badge ${isRecruiter?'badge-recruiter':'badge-group'}">${d.group||'—'}</span>
+            <span class="badge badge-credits">${d.credits||0} credits</span>
+          </div>
+        </div></div>`;
+
+      // Links
+      let linksHTML='';
+      if(d.phone)linksHTML+=`<a href="https://wa.me/${d.phone}" target="_blank" class="link-item link-wa"><span class="li-icon">💬</span>WhatsApp</a>`;
+      if(d.github)linksHTML+=`<a href="${d.github}" target="_blank" class="link-item link-gh"><span class="li-icon">🐙</span>GitHub</a>`;
+      if(d.linkedin)linksHTML+=`<a href="${d.linkedin}" target="_blank" class="link-item link-li"><span class="li-icon">🔗</span>LinkedIn</a>`;
+      if(d.portfolio)linksHTML+=`<a href="${d.portfolio}" target="_blank" class="link-item link-pf"><span class="li-icon">🌐</span>Portfolio</a>`;
+      if(linksHTML){document.getElementById('links-grid').innerHTML=linksHTML;document.getElementById('links-card').style.display='block'}
+
+      // Showcase
+      if(d.showcasePhotos&&d.showcasePhotos.length>0){
+        const sg=document.getElementById('showcase-grid');
+        d.showcasePhotos.forEach(p=>{if(p){const img=document.createElement('img');img.className='showcase-img';img.src=p;img.alt='Showcase';
+          img.addEventListener('click',()=>{document.getElementById('lb-img').src=p;document.getElementById('lightbox').classList.add('open')});
+          sg.appendChild(img)}});
+        document.getElementById('showcase-card').style.display='block';
+      }
+
+      // Load stats and work
+      await loadStats(d);
+      await loadWork();
+      await loadQA();
+    }
+
+    async function loadStats(d){
+      let delivCount=0,qaAsked=0,qaSolved=0;
+      try{const dSnap=await getDocs(query(collection(db,'deliverables'),where('uid','==',targetUid)));delivCount=dSnap.size}catch(e){}
+      try{const qSnap=await getDocs(query(collection(db,'qa'),where('askedByUid','==',targetUid)));qaAsked=qSnap.size}catch(e){}
+      // Count solved doubts client-side (no composite index needed)
+      try{const sSnap=await getDocs(query(collection(db,'qa'),where('claimedByUid','==',targetUid)));
+        sSnap.forEach(d=>{if(d.data().solved===true)qaSolved++})}catch(e){}
+      document.getElementById('stats-grid').innerHTML=`
+        <div class="stat-box"><div class="stat-num">${delivCount}</div><div class="stat-label">Deliverables</div></div>
+        <div class="stat-box"><div class="stat-num">${qaAsked}</div><div class="stat-label">Doubts Asked</div></div>
+        <div class="stat-box"><div class="stat-num">${qaSolved}</div><div class="stat-label">Doubts Solved</div></div>
+        <div class="stat-box"><div class="stat-num">${d.credits||0}</div><div class="stat-label">Credits</div></div>`;
+      document.getElementById('stats-card').style.display='block';
+    }
+
+    async function loadWork(){
+      const el=document.getElementById('work-list');
+      try{
+        // Simple where() only — no orderBy — then sort in JS (no index needed!)
+        const snap=await getDocs(query(collection(db,'deliverables'),where('uid','==',targetUid)));
+        if(snap.empty){el.innerHTML='<div class="empty">No deliverables submitted yet.</div>';return}
+        const items=[];snap.forEach(d=>items.push(d.data()));
+        sortByTime(items);
+        el.innerHTML='';
+        items.forEach(data=>{
+          el.innerHTML+=`<div class="act-item"><div class="act-icon" style="background:rgba(79,70,229,.08)">🚀</div><div class="act-body"><div class="act-title">${data.taskName||'Task'}</div><div class="act-meta">${ago(data.timestamp)}</div><a href="${data.link}" target="_blank" class="act-link">View Submission →</a></div></div>`;
+        });
+      }catch(e){el.innerHTML='<div class="empty">Could not load work data.</div>'}
+    }
+
+    async function loadQA(){
+      const el=document.getElementById('qa-list');
+      try{
+        // Simple where() only — no orderBy — then sort in JS (no index needed!)
+        const snap=await getDocs(query(collection(db,'qa'),where('askedByUid','==',targetUid)));
+        if(snap.empty){el.innerHTML='<div class="empty">No Q&A activity yet.</div>';return}
+        const items=[];snap.forEach(d=>items.push(d.data()));
+        sortByTime(items);
+        el.innerHTML='';
+        items.forEach(data=>{
+          const status=data.solved?'✅ Solved':data.claimedByUid?'🙋 Claimed':'⏳ Open';
+          const color=data.solved?'rgba(5,150,105,.08)':data.claimedByUid?'rgba(79,70,229,.08)':'rgba(217,119,6,.08)';
+          el.innerHTML+=`<div class="act-item"><div class="act-icon" style="background:${color}">🧠</div><div class="act-body"><div class="act-title">"${data.question}"</div><div class="act-meta">${status} · ${ago(data.timestamp)}</div></div></div>`;
+        });
+      }catch(e){el.innerHTML='<div class="empty">Could not load Q&A data.</div>'}
+    }
+
+    // Lightbox close
+    document.getElementById('lightbox').addEventListener('click',()=>document.getElementById('lightbox').classList.remove('open'));
+    // Hamburger
+    document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+  </script>
+  <script type="module" src="./pwa.js"></script>
+</body>
+</html>
