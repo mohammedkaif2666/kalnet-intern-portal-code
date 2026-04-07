@@ -386,15 +386,18 @@ export async function touchLastLogin(uid) {
 }
 
 export async function redirectAuthenticatedUserToDashboard(options = {}) {
-  const { missingProfileRedirect = "signup.html" } = options;
+  const { missingProfileRedirect = null } = options;
   const user = await waitForAuthState();
   if (!user) {
     return false;
   }
   const profile = await loadUserProfile(user.uid, user);
   if (!profile) {
-    window.location.replace(missingProfileRedirect);
-    return true;
+    if (missingProfileRedirect) {
+      window.location.replace(missingProfileRedirect);
+      return true;
+    }
+    return false;
   }
   window.location.replace(getDashboardPath(profile.role));
   return true;

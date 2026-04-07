@@ -62,7 +62,7 @@
   <script type="module">
     import { redirectAuthenticatedUserToDashboard } from "./portal-core.js";
 
-    const redirected = await redirectAuthenticatedUserToDashboard();
+    const redirected = await redirectAuthenticatedUserToDashboard({ missingProfileRedirect: "index.html" });
     if (!redirected) {
       window.location.replace("index.html");
     }

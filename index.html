@@ -135,6 +135,8 @@
     import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
     import {
       db,
+      getDashboardPath,
+      loadUserProfile,
       redirectAuthenticatedUserToDashboard,
       signInRecruiterWithGoogle,
       signInWithPortalCredentials,
@@ -151,7 +153,7 @@
       toastElement._timer = setTimeout(() => toastElement.classList.remove("show"), 3200);
     };
 
-    const redirected = await redirectAuthenticatedUserToDashboard();
+    const redirected = await redirectAuthenticatedUserToDashboard({ missingProfileRedirect: null });
     if (!redirected) {
       try {
         const [internsSnapshot, deliverablesSnapshot] = await Promise.all([
@@ -185,8 +187,16 @@
       button.textContent = "Signing In...";
 
       try {
-        await signInWithPortalCredentials(email, password);
-        await redirectAuthenticatedUserToDashboard();
+        const user = await signInWithPortalCredentials(email, password);
+        const profile = await loadUserProfile(user.uid, user);
+        if (!profile) {
+          await signOutUser().catch(() => {});
+          showToast("No portal profile was found for this account. Ask the recruiter to create your access first.", "error");
+          button.disabled = false;
+          button.textContent = "Enter Portal";
+          return;
+        }
+        window.location.replace(getDashboardPath(profile.role));
       } catch (error) {
         showToast(`Sign in failed: ${error.message}`, "error");
         button.disabled = false;
