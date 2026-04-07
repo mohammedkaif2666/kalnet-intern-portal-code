@@ -243,8 +243,33 @@ export async function requireAuth(options = {}) {
 }
 
 export async function signInWithPortalCredentials(email, password) {
-  const result = await signInWithEmailAndPassword(auth, email.trim(), password);
-  return result.user;
+  const normalizedPhonePassword = normalizePasswordFromPhone(password);
+  const passwordCandidates = Array.from(new Set([
+    String(password ?? ""),
+    normalizedPhonePassword,
+    normalizedPhonePassword.replace(/^\+/, ""),
+    normalizedPhonePassword && !normalizedPhonePassword.startsWith("+") ? `+${normalizedPhonePassword}` : "",
+  ].filter(Boolean)));
+
+  let lastError = null;
+  for (const candidate of passwordCandidates) {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email.trim(), candidate);
+      return result.user;
+    } catch (error) {
+      if (
+        error?.code === "auth/invalid-credential" ||
+        error?.code === "auth/wrong-password" ||
+        error?.code === "auth/invalid-login-credentials"
+      ) {
+        lastError = error;
+        continue;
+      }
+      throw error;
+    }
+  }
+
+  throw lastError || new Error("Invalid email or password.");
 }
 
 export async function signInRecruiterWithGoogle() {
