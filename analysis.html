@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KALNET | Recruiter Analysis</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./dashboard-ui.css" />
+  <link rel="stylesheet" href="./analysis-ui.css" />
+</head>
+<body>
+  <div class="toast" id="toast"></div>
+
+  <nav class="topnav">
+    <a href="index.html" class="topnav-logo">
+      <div class="ico">K</div>
+      <span>KALNET<em>.AI</em></span>
+    </a>
+    <div class="topnav-right">
+      <a href="recruiter-dashboard.html" class="topnav-link">Dashboard</a>
+      <a href="analysis.html" class="topnav-link active">Analysis</a>
+      <a href="work.html" class="topnav-link">Programme</a>
+      <a href="profile.html" class="topnav-link">My Profile</a>
+      <div class="topnav-user">
+        <div id="nav-avatar"></div>
+        <span id="nav-name">Recruiter</span>
+      </div>
+      <button class="btn btn-danger btn-compact" id="logout-btn" type="button">Sign Out</button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="recruiter-dashboard.html">Dashboard</a>
+    <a href="analysis.html">Analysis</a>
+    <a href="work.html">Programme</a>
+    <a href="profile.html">My Profile</a>
+    <a href="index.html">Home</a>
+    <button id="mobile-logout" type="button">Sign Out</button>
+  </div>
+
+  <main class="analysis-layout">
+    <section class="analysis-column analysis-left">
+      <article class="card user-card">
+        <div id="user-card-photo"></div>
+        <div class="user-card-name" id="user-card-name">Recruiter</div>
+        <div class="user-card-email" id="user-card-email">recruiter@example.com</div>
+        <div class="pill-row" id="user-pills"></div>
+      </article>
+
+      <article class="card">
+        <div class="card-title">
+          Recruiter Filters
+          <span class="badge" id="analysis-state-badge">Live</span>
+        </div>
+        <div class="stack">
+          <div class="field">
+            <label for="analysis-group-filter">Filter By Group</label>
+            <select id="analysis-group-filter" class="control-select">
+              <option value="all">All Groups</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="analysis-sort">Sort Students By</label>
+            <select id="analysis-sort" class="control-select">
+              <option value="score_desc">Overall Score</option>
+              <option value="deliverables_desc">Deliverables Submitted</option>
+              <option value="attendance_desc">Meeting Reliability</option>
+              <option value="doubts_desc">Doubts Cleared</option>
+              <option value="credits_desc">Credits</option>
+              <option value="name_asc">Name</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="analysis-student-select">Focus Student</label>
+            <select id="analysis-student-select" class="control-select">
+              <option value="">Auto select top candidate</option>
+            </select>
+          </div>
+          <div class="action-row">
+            <button class="btn btn-secondary btn-compact" id="refresh-ai-btn" type="button">Refresh AI Analysis</button>
+            <button class="btn btn-secondary btn-compact" id="export-current-btn" type="button">Download Current View</button>
+          </div>
+          <div class="action-row">
+            <button class="btn btn-secondary btn-compact" id="export-selected-analysis-btn" type="button">Download Student Analysis</button>
+            <button class="btn btn-primary btn-compact" id="export-selection-report-btn" type="button">Download Selection Report</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-title">
+          Meeting Attendance Control
+          <span class="badge" id="attendance-coverage-badge">Not Marked</span>
+        </div>
+        <div class="stack">
+          <div class="helper-note">Mark attendance here so the recommendation engine can use real meeting reliability instead of assumptions.</div>
+          <div class="field">
+            <label for="attendance-meeting-select">Select Meeting</label>
+            <select id="attendance-meeting-select" class="control-select">
+              <option value="">No meetings available</option>
+            </select>
+          </div>
+          <div class="attendance-list" id="attendance-list">
+            <div class="empty-state">Attendance controls will appear after meetings are scheduled.</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="analysis-column analysis-center">
+      <article class="card">
+        <div class="section-header">
+          <div>
+            <h2>Recruitment Intelligence Overview</h2>
+            <p>Live scoring combines deliverable momentum, meeting reliability, doubt clearing, and consistency to support recruiter selection decisions.</p>
+          </div>
+          <span class="badge" id="analysis-updated-at">Waiting</span>
+        </div>
+        <div class="summary-grid" id="summary-grid">
+          <div class="empty-state">Loading analysis overview...</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-header">
+          <div>
+            <h2>Top Talent Leaderboard</h2>
+            <p>The strongest candidates rise to the top as the weighted score updates from live portal activity.</p>
+          </div>
+          <span class="badge" id="leaderboard-count">0 students</span>
+        </div>
+        <div class="chart-stack" id="leaderboard-chart">
+          <div class="empty-state">No analysis data available yet.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-header">
+          <div>
+            <h2>Sheet Analysis</h2>
+            <p>Review every student in a structured recruiter sheet with ranking, recommendation status, and the reason behind it.</p>
+          </div>
+          <span class="badge" id="table-count">0 rows</span>
+        </div>
+        <div class="analysis-table-wrap">
+          <table class="analysis-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Student</th>
+                <th>Group</th>
+                <th>Score</th>
+                <th>Deliverables</th>
+                <th>Attendance</th>
+                <th>Doubts Cleared</th>
+                <th>Recommendation</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody id="analysis-table-body">
+              <tr>
+                <td colspan="9" class="empty-cell">Loading analysis table...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="analysis-column analysis-right">
+      <article class="card recommendation-card" id="top-recommendation-card">
+        <div class="card-title">
+          Recommended For Full-Time
+          <span class="badge" id="top-candidate-score">0</span>
+        </div>
+        <div id="top-recommendation">
+          <div class="empty-state">Recommendation engine is preparing the shortlist.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-header">
+          <div>
+            <h2>Group Comparison</h2>
+            <p>Compare average performance group by group before drilling into individual recommendations.</p>
+          </div>
+          <span class="badge" id="group-count">0 groups</span>
+        </div>
+        <div class="chart-stack" id="group-chart">
+          <div class="empty-state">No group comparison available yet.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-header">
+          <div>
+            <h2>Focused Student Breakdown</h2>
+            <p>Inspect the selected student metric by metric, including performance bars, strengths, and risks.</p>
+          </div>
+          <span class="badge" id="focused-student-badge">No student</span>
+        </div>
+        <div id="student-detail">
+          <div class="empty-state">Choose a student or let the page auto-focus on the top candidate.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-header">
+          <div>
+            <h2>AI Recruiting Insights</h2>
+            <p>Groq turns the structured analytics into recruiter-readable explanations without inventing missing evidence.</p>
+          </div>
+          <span class="badge" id="ai-status-badge">Pending</span>
+        </div>
+        <div class="stack" id="ai-insights-box">
+          <div class="empty-state">AI cohort insights will appear after the analytics engine finishes its first pass.</div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script type="module" src="./analysis-app.js"></script>
+  <script type="module" src="./pwa.js"></script>
+</body>
+</html>

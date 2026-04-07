@@ -1,4 +1,4 @@
-const CACHE_NAME = "kalnet-portal-v2";
+const CACHE_NAME = "kalnet-portal-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -7,8 +7,11 @@ const APP_SHELL = [
   "./dashboard.html",
   "./intern-dashboard.html",
   "./recruiter-dashboard.html",
+  "./analysis.html",
   "./dashboard-ui.css",
+  "./analysis-ui.css",
   "./dashboard-app.js",
+  "./analysis-app.js",
   "./portal-core.js",
   "./ai-assistant.js",
   "./work.html",

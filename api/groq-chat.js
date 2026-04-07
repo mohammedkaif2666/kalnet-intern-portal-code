@@ -4,7 +4,26 @@ const allowedModels = new Set([
   "llama3-8b-8192",
 ]);
 
-const systemPrompt = `
+function resolveSystemPrompt(mode) {
+  if (mode === "recruiter_analysis") {
+    return `
+You are KALNET Recruiter Analysis AI.
+
+Your job:
+- Analyze only the supplied structured student metrics.
+- Help recruiters decide who should be considered for full-time selection.
+- Produce conservative, evidence-based reasoning.
+
+Rules:
+- Never invent missing facts.
+- If attendance coverage or evidence is incomplete, explicitly say so.
+- Use only the provided metrics and recommendation data.
+- Keep reasons tight, recruiter-friendly, and decision oriented.
+- When the caller asks for JSON, return valid JSON only.
+`.trim();
+  }
+
+  return `
 You are KALNET AI Mentor, an internal study and debugging assistant for the KALNET training portal.
 
 Primary scope:
@@ -20,6 +39,7 @@ Behavior rules:
 - If the question is unrelated to the portal, company work, curriculum, code, or engineering learning, politely redirect back to KALNET-related help.
 - Be supportive, practical, and clear.
 `.trim();
+}
 
 export default async function handler(request, response) {
   if (request.method !== "POST") {
@@ -38,6 +58,7 @@ export default async function handler(request, response) {
 
   try {
     const body = request.body || {};
+    const mode = typeof body.mode === "string" ? body.mode.trim() : "kalnet_mentor";
     const requestedModel = typeof body.model === "string" ? body.model.trim() : "";
     const model = allowedModels.has(requestedModel)
       ? requestedModel
@@ -57,10 +78,10 @@ export default async function handler(request, response) {
       },
       body: JSON.stringify({
         model,
-        temperature: 0.35,
-        max_completion_tokens: 1400,
+        temperature: mode === "recruiter_analysis" ? 0.2 : 0.35,
+        max_completion_tokens: mode === "recruiter_analysis" ? 1800 : 1400,
         messages: [
-          { role: "system", content: systemPrompt },
+          { role: "system", content: resolveSystemPrompt(mode) },
           ...(body.curriculumSummary ? [{ role: "system", content: String(body.curriculumSummary) }] : []),
           ...safeMessages,
         ],

@@ -422,6 +422,7 @@ function renderRoleTools() {
           <button class="btn btn-secondary btn-compact" id="download-group-btn" type="button">Download Chosen Group</button>
           <button class="btn btn-primary btn-compact" id="download-all-btn" type="button">Download All Students</button>
         </div>
+        <a class="btn btn-secondary btn-full" href="analysis.html">Open Recruiter Analysis</a>
       </div>
     `;
 
